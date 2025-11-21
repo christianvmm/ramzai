@@ -109,6 +109,10 @@ export function SongFullVersion({ song }: { song: Song }) {
     }
   }
 
+  const url = process.env.NEXT_PUBLIC_BASE_URL + '/' + song.slug
+  const shareText = `Mira esta canción personalizada hecha con RAMZAI para ${song.recipientName}: ${song.title}\n ${url}`
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`
+
   return (
     <>
       <audio ref={audioRef} src={song.audioURL!} preload='metadata' />
@@ -300,10 +304,13 @@ export function SongFullVersion({ song }: { song: Song }) {
 
               {/* Secondary Actions */}
               <div className='flex flex-wrap gap-3 justify-center lg:justify-start'>
-                <button className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-600 transition-all duration-200'>
+                <a
+                  className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-600 transition-all duration-200'
+                  href={whatsappUrl}
+                >
                   <Share2Icon className='w-4 h-4' />
                   <span className='text-sm font-medium'>Compartir</span>
-                </button>
+                </a>
               </div>
             </div>
           </main>
