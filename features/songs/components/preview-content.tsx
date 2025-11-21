@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
+import { siteConfig } from '@/config'
 import { Song } from '@/features/songs/api/get-song'
 import { PlayIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
@@ -39,7 +40,7 @@ export function PreviewContent({ song }: { song: Song }) {
 
   return (
     <div className='min-h-screen bg-black text-white overflow-hidden'>
-      <div className='relative min-h-screen flex items-center justify-center'>
+      <div className='relative min-h-screen flex items-center justify-center py-16'>
         <div
           className='absolute inset-0 bg-cover bg-center'
           style={{
@@ -52,6 +53,12 @@ export function PreviewContent({ song }: { song: Song }) {
         <div className='absolute inset-0 bg-linear-to-t from-black via-black/80 to-black/40' />
 
         <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16'>
+          <img
+            src='/logo.png'
+            className='w-32 h-auto mx-auto lg:hidden'
+            alt={siteConfig.name}
+          />
+
           <div className='w-full lg:w-auto flex justify-center shrink-0'>
             <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0'>
               <img
@@ -91,6 +98,12 @@ export function PreviewContent({ song }: { song: Song }) {
               {song.genre}
             </span>
 
+            <img
+              src='/logo.png'
+              className='w-32 h-auto mb-10 hidden lg:block'
+              alt={siteConfig.name}
+            />
+
             <h1 className='text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 text-balance text-white'>
               {song.title}
             </h1>
@@ -124,12 +137,14 @@ export function PreviewContent({ song }: { song: Song }) {
                 <span>Escuchar vista previa</span>
               </button>
 
-              {song.checkoutURL && <a
-                className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
-                href={song.checkoutURL}
-              >
-                Comprar — ${song.price} MXN
-              </a>}
+              {song.checkoutURL && (
+                <a
+                  className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
+                  href={song.checkoutURL}
+                >
+                  Comprar — ${song.price} MXN
+                </a>
+              )}
             </div>
           </div>
         </main>

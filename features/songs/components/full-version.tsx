@@ -87,9 +87,9 @@ export function SongFullVersion({ song }: { song: Song }) {
   return (
     <>
       <audio ref={audioRef} src={song.audioURL!} preload='metadata' />
-      <div className='min-h-screen bg-black text-white overflow-hidden'>
+      <div className='min-h-screen bg-black text-white overflow-hidden flex flex-col'>
         {/* Hero Section with Background Image */}
-        <div className='relative min-h-screen flex items-center justify-center'>
+        <div className='relative flex-1 flex items-center justify-center py-16'>
           {/* Background Image with Overlay */}
           <div
             className='absolute inset-0 bg-cover bg-center'
@@ -153,7 +153,7 @@ export function SongFullVersion({ song }: { song: Song }) {
             {/* Song Information */}
             <div className='flex-1 text-center lg:text-left'>
               {/* Purchase Status Badge */}
-              <div className='flex items-center gap-2 mb-4'>
+              <div className='flex items-center gap-2 mb-4 justify-center lg:justify-start'>
                 <div className='w-2 h-2 bg-amber-400 rounded-full' />
                 <span className='text-xs font-semibold tracking-widest text-amber-400 uppercase'>
                   Compra Desbloqueada — {song.purchasedAt?.toDateString()}

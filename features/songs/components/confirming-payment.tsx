@@ -6,7 +6,7 @@ export function ConfirmingPayment({ song }: { song: Song }) {
   return (
     <div className='min-h-screen bg-black text-white overflow-hidden'>
       {/* Hero Section with Background Image */}
-      <div className='relative min-h-screen flex items-center justify-center'>
+      <div className='relative min-h-screen flex items-center justify-center py-16'>
         {/* Background Image with Overlay */}
         <div
           className='absolute inset-0 bg-cover bg-center'
@@ -69,7 +69,7 @@ export function ConfirmingPayment({ song }: { song: Song }) {
             </p>
 
             {/* CTA Buttons - Primary is now Play Full Version */}
-            <div className='flex flex-col sm:flex-row gap-4 mb-10'>
+            <div className='flex flex-col lg:flex-row gap-4 items-center'>
               <div className='flex items-center gap-2 mb-4 animate-pulse'>
                 <div className='w-2 h-2 bg-amber-400 rounded-full' />
                 <span className='text-xs font-semibold tracking-widest text-amber-400 uppercase'>
