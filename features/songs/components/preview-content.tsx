@@ -114,9 +114,11 @@ export function PreviewContent({ song }: { song: Song }) {
               </button>
 
               {/* Secondary Button */}
-              <button className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl'>
+              <a className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
+                href='https://buy.stripe.com/7sY00i5ahgC35bp0k343S00'
+              >
                 Buy Now — {song.price}
-              </button>
+              </a>
             </div>
 
             {/* Secondary Actions */}
