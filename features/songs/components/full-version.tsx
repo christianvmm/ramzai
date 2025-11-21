@@ -133,7 +133,7 @@ export function SongFullVersion({ song }: { song: Song }) {
           {/* Dark Gradient Overlay */}
           <div className='absolute inset-0 bg-linear-to-t from-black via-black/80 to-black/40' />
 
-          <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-24 lg:gap-16'>
+          <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-start justify-center gap-24 lg:gap-16'>
             <img
               src='/logo.png'
               className='w-32 h-auto mx-auto lg:hidden'
@@ -143,7 +143,7 @@ export function SongFullVersion({ song }: { song: Song }) {
             {/* Album Cover with Purchase Badge */}
             <div className='w-full lg:w-auto flex justify-center shrink-0'>
               <div>
-                <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0'>
+                <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0 lg:mt-32'>
                   <img
                     src={song.coverImage || '/placeholder.svg'}
                     alt={`${song.title} album cover`}
