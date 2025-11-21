@@ -16,5 +16,5 @@ export default async function SongPreviewPage({
     notFound()
   }
 
-  return <PreviewContent song={song} />
+  return <SongFullVersion song={song} />
 }
