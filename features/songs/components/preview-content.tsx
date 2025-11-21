@@ -124,12 +124,12 @@ export function PreviewContent({ song }: { song: Song }) {
                 <span>Escuchar vista previa</span>
               </button>
 
-              <a
+              {song.checkoutURL && <a
                 className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
-                href={song.paymentLink}
+                href={song.checkoutURL}
               >
                 Comprar — ${song.price} MXN
-              </a>
+              </a>}
             </div>
           </div>
         </main>
