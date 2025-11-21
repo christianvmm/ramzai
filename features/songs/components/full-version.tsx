@@ -1,8 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
+import { siteConfig } from '@/config'
 import { Song } from '@/features/songs/api/get-song'
 import {
+  CheckCheckIcon,
   CheckCircleIcon,
+  CopyIcon,
   DownloadIcon,
   PauseIcon,
   PlayIcon,
@@ -18,6 +21,7 @@ const formatTime = (seconds: number) => {
 export function SongFullVersion({ song }: { song: Song }) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
+  const [copiedLyrics, setCopiedLyrics] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [totalDuration, setTotalDuration] = useState(0)
@@ -84,6 +88,26 @@ export function SongFullVersion({ song }: { song: Song }) {
     }
   }
 
+  async function downloadImage() {
+    try {
+      const response = await fetch(song.coverImage) // Obtiene la imagen
+      const blob = await response.blob() // Convierte la respuesta en un blob
+      const url = URL.createObjectURL(blob) // Crea una URL temporal para el blob
+
+      // Crear un enlace temporal para descargar
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'imagen.png' // Nombre del archivo
+      document.body.appendChild(link)
+      link.click() // Simula el click
+      document.body.removeChild(link)
+
+      URL.revokeObjectURL(url) // Limpia la URL temporal
+    } catch (error) {
+      console.error('Error al descargar la imagen:', error)
+    }
+  }
+
   return (
     <>
       <audio ref={audioRef} src={song.audioURL!} preload='metadata' />
@@ -91,6 +115,7 @@ export function SongFullVersion({ song }: { song: Song }) {
         {/* Hero Section with Background Image */}
         <div className='relative flex-1 flex items-center justify-center py-16'>
           {/* Background Image with Overlay */}
+
           <div
             className='absolute inset-0 bg-cover bg-center'
             style={{
@@ -103,55 +128,77 @@ export function SongFullVersion({ song }: { song: Song }) {
           {/* Dark Gradient Overlay */}
           <div className='absolute inset-0 bg-linear-to-t from-black via-black/80 to-black/40' />
 
-          <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16'>
+          <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-24 lg:gap-16'>
+            <img
+              src='/logo.png'
+              className='w-32 h-auto mx-auto lg:hidden'
+              alt={siteConfig.name}
+            />
+
             {/* Album Cover with Purchase Badge */}
             <div className='w-full lg:w-auto flex justify-center shrink-0'>
-              <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0'>
-                <img
-                  src={song.coverImage || '/placeholder.svg'}
-                  alt={`${song.title} album cover`}
-                  className='w-full h-full object-cover rounded-lg shadow-2xl transition-transform duration-500 group-hover:scale-105'
-                />
+              <div>
+                <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0'>
+                  <img
+                    src={song.coverImage || '/placeholder.svg'}
+                    alt={`${song.title} album cover`}
+                    className='w-full h-full object-cover rounded-lg shadow-2xl transition-transform duration-500 group-hover:scale-105'
+                  />
 
-                {/* Play Button Overlay */}
-                <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm'
-                  aria-label='Reproducir versión completa'
-                >
-                  <div className='w-20 h-20 rounded-full bg-amber-400 flex items-center justify-center hover:bg-amber-300 transition-colors shadow-lg'>
-                    {isPlaying ? (
-                      <PauseIcon className='w-8 h-8 text-black fill-black' />
-                    ) : (
-                      <PlayIcon className='w-8 h-8 text-black fill-black ml-1' />
-                    )}
+                  {/* Play Button Overlay */}
+                  <button
+                    onClick={() => setIsPlaying(!isPlaying)}
+                    className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm'
+                    aria-label='Reproducir versión completa'
+                  >
+                    <div className='w-20 h-20 rounded-full bg-amber-400 flex items-center justify-center hover:bg-amber-300 transition-colors shadow-lg'>
+                      {isPlaying ? (
+                        <PauseIcon className='w-8 h-8 text-black fill-black' />
+                      ) : (
+                        <PlayIcon className='w-8 h-8 text-black fill-black ml-1' />
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Now Playing Indicator */}
+                  {isPlaying && (
+                    <div className='absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-1 items-center'>
+                      <div className='animate-pulse w-1 h-3 bg-amber-400 rounded-full' />
+                      <div
+                        className='animate-pulse w-1 h-4 bg-amber-400 rounded-full'
+                        style={{ animationDelay: '100ms' }}
+                      />
+                      <div
+                        className='animate-pulse w-1 h-3 bg-amber-400 rounded-full'
+                        style={{ animationDelay: '200ms' }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Purchase Badge */}
+                  <div className='absolute -top-4 -right-4 bg-amber-400 rounded-full p-2 shadow-lg'>
+                    <CheckCircleIcon className='w-6 h-6 text-black' />
                   </div>
-                </button>
-
-                {/* Now Playing Indicator */}
-                {isPlaying && (
-                  <div className='absolute -bottom-8 left-1/2 -translate-x-1/2 flex gap-1 items-center'>
-                    <div className='animate-pulse w-1 h-3 bg-amber-400 rounded-full' />
-                    <div
-                      className='animate-pulse w-1 h-4 bg-amber-400 rounded-full'
-                      style={{ animationDelay: '100ms' }}
-                    />
-                    <div
-                      className='animate-pulse w-1 h-3 bg-amber-400 rounded-full'
-                      style={{ animationDelay: '200ms' }}
-                    />
-                  </div>
-                )}
-
-                {/* Purchase Badge */}
-                <div className='absolute -top-4 -right-4 bg-amber-400 rounded-full p-2 shadow-lg'>
-                  <CheckCircleIcon className='w-6 h-6 text-black' />
                 </div>
+
+                <button
+                  className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-6 py-2 rounded-lg font-bold text- transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer w-full mt-4'
+                  onClick={downloadImage}
+                >
+                  <DownloadIcon className='w-4 h-4' />
+                  <span>Descargar</span>
+                </button>
               </div>
             </div>
 
             {/* Song Information */}
             <div className='flex-1 text-center lg:text-left'>
+              <img
+                src='/logo.png'
+                className='w-32 h-auto mb-10 hidden lg:block'
+                alt={siteConfig.name}
+              />
+
               {/* Purchase Status Badge */}
               <div className='flex items-center gap-2 mb-4 justify-center lg:justify-start'>
                 <div className='w-2 h-2 bg-amber-400 rounded-full' />
@@ -186,6 +233,26 @@ export function SongFullVersion({ song }: { song: Song }) {
               <p className='text-lg text-gray-300 mb-10 leading-relaxed max-w-xl'>
                 {song.dedication}
               </p>
+
+              <div className='relative'>
+                <button
+                  className='absolute top-5 right-5 p-2 rounded-md z-10 cursor-pointer'
+                  onClick={() => {
+                    if (!song.lyrics) return
+
+                    navigator.clipboard.writeText(song.lyrics)
+                    setCopiedLyrics(true)
+                  }}
+                >
+                  {copiedLyrics ? <CheckCheckIcon /> : <CopyIcon />}
+                </button>
+
+                <div className='bg-linear-to-r from-amber-400/10 to-amber-400/5 border border-amber-400/30 rounded-xl p-6 mb-10 backdrop-blur-sm max-h-64 overflow-y-auto '>
+                  <p className='text-lg text-amber-100 font-medium italic text-balance whitespace-pre-line'>
+                    {song.lyrics}
+                  </p>
+                </div>
+              </div>
 
               {/* CTA Buttons - Primary is now Play Full Version */}
               <div className='flex flex-col sm:flex-row gap-4 mb-10'>

@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { siteConfig } from '@/config'
 import { Song } from '@/features/songs/api/get-song'
 import { CheckCircleIcon } from 'lucide-react'
 
@@ -21,6 +22,12 @@ export function ConfirmingPayment({ song }: { song: Song }) {
         <div className='absolute inset-0 bg-linear-to-t from-black via-black/80 to-black/40' />
 
         <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16'>
+          <img
+            src='/logo.png'
+            className='w-32 h-auto mx-auto lg:hidden'
+            alt={siteConfig.name}
+          />
+
           {/* Album Cover with Purchase Badge */}
           <div className='w-full lg:w-auto flex justify-center shrink-0'>
             <div className='relative group w-64 h-64 md:w-72 md:h-72 shrink-0'>
@@ -41,6 +48,12 @@ export function ConfirmingPayment({ song }: { song: Song }) {
           <div className='flex-1 text-center lg:text-left'>
             {/* Purchase Status Badge */}
 
+            <img
+              src='/logo.png'
+              className='w-32 h-auto mb-10 hidden lg:block'
+              alt={siteConfig.name}
+            />
+
             {/* Genre Tag */}
             <span className='inline-block text-xs font-semibold tracking-widest text-amber-400 mb-4 uppercase'>
               {song.genre}
@@ -59,8 +72,6 @@ export function ConfirmingPayment({ song }: { song: Song }) {
             {/* Release Info */}
             <div className='flex flex-col lg:flex-row items-center lg:items-start gap-3 text-sm text-gray-400 mb-8'>
               <span>Lanzado el {song.createdAt.toDateString()}</span>
-              <span className='hidden lg:inline'>•</span>
-              <span>10:05</span>
             </div>
 
             {/* Description */}

@@ -3,11 +3,12 @@
 
 import { siteConfig } from '@/config'
 import { Song } from '@/features/songs/api/get-song'
-import { PlayIcon } from 'lucide-react'
+import { CheckIcon, PlayIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 export function PreviewContent({ song }: { song: Song }) {
   const [isPlayingPreview, setIsPlayingPreview] = useState(false)
+  const [copied, setCopied] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -94,15 +95,15 @@ export function PreviewContent({ song }: { song: Song }) {
           </div>
 
           <div className='flex-1 text-center lg:text-left'>
-            <span className='inline-block text-xs font-semibold tracking-widest text-amber-400 mb-4 uppercase'>
-              {song.genre}
-            </span>
-
             <img
               src='/logo.png'
               className='w-32 h-auto mb-10 hidden lg:block'
               alt={siteConfig.name}
             />
+
+            <span className='inline-block text-xs font-semibold tracking-widest text-amber-400 mb-4 uppercase'>
+              {song.genre}
+            </span>
 
             <h1 className='text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 text-balance text-white'>
               {song.title}
@@ -128,27 +129,83 @@ export function PreviewContent({ song }: { song: Song }) {
               </p>
             </div>
 
-            <div className='flex flex-col sm:flex-row gap-4'>
-              <button
-                onClick={handlePlay}
-                className='flex-1 bg-amber-400 hover:bg-amber-300 text-black px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl cursor-pointer'
-              >
-                <PlayIcon className='w-5 h-5 fill-current' />
-                <span>Escuchar vista previa</span>
-              </button>
-
-              {song.checkoutURL && (
-                <a
-                  className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
-                  href={song.checkoutURL}
+            <div>
+              <p className='text-right text-sm text-gray-400 mb-2 hidden lg:block'>
+                10% de descuento con código{' '}
+                <span className='font-bold'>NAVIDAD25</span> —{' '}
+                <Countdown createdAt={song.createdAt} />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText('NAVIDAD25')
+                    setCopied(true)
+                  }}
+                  className='ml-2 px-2 py-0.5 bg-gray-700 text-white rounded text-xs cursor-pointer inline-flex gap-1 items-center'
                 >
-                  Comprar — ${song.price} MXN
-                </a>
-              )}
+                  Copiar {copied && <CheckIcon className='size-3' />}
+                </button>
+              </p>
+
+              <div className='flex flex-col sm:flex-row gap-4'>
+                <button
+                  onClick={handlePlay}
+                  className='flex-1 bg-amber-400 hover:bg-amber-300 text-black px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl cursor-pointer'
+                >
+                  <PlayIcon className='w-5 h-5 fill-current' />
+                  <span>Escuchar vista previa</span>
+                </button>
+
+                <p className='text-right text-sm text-gray-400 mt-4 block lg:hidden'>
+                  10% de descuento con código{' '}
+                  <span className='font-bold'>NAVIDAD25</span> —{' '}
+                  <Countdown createdAt={song.createdAt} />
+                  <button
+                    onClick={() => navigator.clipboard.writeText('NAVIDAD25')}
+                    className='ml-2 px-2 py-0.5 bg-gray-700 text-white rounded text-xs cursor-pointer'
+                  >
+                    Copiar
+                  </button>
+                </p>
+
+                {song.checkoutURL && (
+                  <a
+                    className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
+                    href={song.checkoutURL}
+                  >
+                    Comprar — ${song.price} MXN
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </main>
       </div>
     </div>
+  )
+}
+
+function Countdown({ createdAt }: { createdAt: Date }) {
+  const [timeLeft, setTimeLeft] = useState(0)
+
+  useEffect(() => {
+    const target = new Date(new Date(createdAt).getTime() + 12 * 60 * 60 * 1000) // 12 horas después
+    const interval = setInterval(() => {
+      const now = new Date()
+      const diff = target.getTime() - now.getTime()
+      setTimeLeft(diff > 0 ? diff : 0)
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [createdAt])
+
+  if (timeLeft <= 0) return null
+
+  const hours = Math.floor(timeLeft / (1000 * 60 * 60))
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000)
+
+  return (
+    <span className=''>
+      válido por: {hours}h {minutes}m {seconds}s
+    </span>
   )
 }
