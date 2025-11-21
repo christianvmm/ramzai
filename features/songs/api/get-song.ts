@@ -20,6 +20,7 @@ export async function getSong(slug: string) {
     price: song.price.toNumber(),
     purchasedAt: song.purchasedAt,
     createdAt: song.createdAt,
+    paymentLink: song.paymentLink
   }
 }
 

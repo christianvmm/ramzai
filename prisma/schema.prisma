@@ -25,5 +25,10 @@ model Song {
 
   createdAt DateTime @default(now()) @map("created_at")
 
+  paymentLink         String @map("payment_link")
+  stripeProductId     String @map("stripe_product_id")
+  stripePriceId       String @map("stripe_price_id")
+  stripePaymentLinkId String @map("stripe_payment_link_id")
+
   @@map("songs")
 }
