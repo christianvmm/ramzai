@@ -9,6 +9,7 @@ import {
   DownloadIcon,
   PauseIcon,
   PlayIcon,
+  Share2Icon,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -230,9 +231,8 @@ export function SongFullVersion({ song }: { song: Song }) {
               </div>
 
               {/* Description */}
-              <p className='text-lg text-gray-300 mb-10 leading-relaxed max-w-xl'>
-                {song.dedication}
-              </p>
+
+              <Dedication song={song} />
 
               <div className='relative'>
                 <button
@@ -299,6 +299,12 @@ export function SongFullVersion({ song }: { song: Song }) {
               </div>
 
               {/* Secondary Actions */}
+              <div className='flex flex-wrap gap-3 justify-center lg:justify-start'>
+                <button className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-600 transition-all duration-200'>
+                  <Share2Icon className='w-4 h-4' />
+                  <span className='text-sm font-medium'>Compartir</span>
+                </button>
+              </div>
             </div>
           </main>
         </div>
@@ -307,29 +313,29 @@ export function SongFullVersion({ song }: { song: Song }) {
   )
 }
 
-// <div className='flex flex-wrap gap-3 justify-center lg:justify-start'>
-//   <button
-//     onClick={() => setIsFavorited(!isFavorited)}
-//     className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200 ${
-//       isFavorited
-//         ? 'bg-amber-400/10 border-amber-400 text-amber-400'
-//         : 'border-gray-700 text-gray-400 hover:text-white hover:border-gray-600'
-//     }`}
-//   >
-//     <HeartIcon
-//       className='w-4 h-4'
-//       fill={isFavorited ? 'currentColor' : 'none'}
-//     />
-//     <span className='text-sm font-medium'>Save</span>
-//   </button>
+export function Dedication({ song }: { song: { dedication: string } }) {
+  const [copied, setCopied] = useState(false)
 
-//   <button className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-600 transition-all duration-200'>
-//     <Share2Icon className='w-4 h-4' />
-//     <span className='text-sm font-medium'>Share</span>
-//   </button>
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(song.dedication)
+      .then(() => {
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000) // Mensaje desaparece después de 2s
+      })
+      .catch((err) => console.error('Error copiando al portapapeles:', err))
+  }
 
-//   <button className='flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-700 text-gray-400 hover:text-white hover:border-gray-600 transition-all duration-200'>
-//     <MusicIcon className='w-4 h-4' />
-//     <span className='text-sm font-medium'>Add to Playlist</span>
-//   </button>
-// </div>
+  return (
+    <div className=' max-w-xl flex flex-col items-center gap-2 lg:items-start   mb-4'>
+      <p className='text-lg text-gray-300 leading-relaxed'>{song.dedication}</p>
+
+      <button
+        onClick={handleCopy}
+        className='w-min top-0 right-0 text-sm px-1 py-0.5 bg-gray-700 hover:bg-gray-600 rounded text-white'
+      >
+        {copied ? '¡Copiado!' : 'Copiar'}
+      </button>
+    </div>
+  )
+}
