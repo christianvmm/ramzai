@@ -6,7 +6,7 @@ import { UTApi } from 'uploadthing/server'
 import Stripe from 'stripe'
 
 export const runtime = "nodejs";
-export const maxDuration = 60; // opcional
+export const maxDuration = 60;
 
 const utapi = new UTApi()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing files' }, { status: 400 })
     }
 
-    // UploadThing (accepts single file)
+    // Upload files
     const [audioRes, previewRes, imageRes] = await Promise.all([
       utapi.uploadFiles(audioFile),
       utapi.uploadFiles(audioPreview),
@@ -38,32 +38,26 @@ export async function POST(req: Request) {
     ])
 
     if (!audioRes.data || !previewRes.data || !imageRes.data) {
-      throw new Error()
+      throw new Error("Upload failed")
     }
 
     const slug = `${slugify(title)}-${randomHash(5)}`
+    const priceAsNumber = Number(price)
 
+    // 1. Create Product
     const product = await stripe.products.create({
       name: `Canción personalizada - ${title}`,
       description: `Canción para ${recipientName}`,
     })
 
-    const priceAsNumber = Number(price)
+    // 2. Create Price
     const priceObj = await stripe.prices.create({
       product: product.id,
       currency: 'mxn',
-      unit_amount: priceAsNumber * 100, // Stripe usa centavos
+      unit_amount: priceAsNumber * 100,
     })
 
-    const paymentLink = await stripe.paymentLinks.create({
-      line_items: [
-        {
-          price: priceObj.id,
-          quantity: 1,
-        },
-      ],
-    })
-
+    // 3. Create Song in DB (to get ID)
     const song = await db.song.create({
       data: {
         title,
@@ -77,10 +71,39 @@ export async function POST(req: Request) {
         audioPreviewURL: previewRes.data.ufsUrl,
         coverImage: imageRes.data.ufsUrl,
 
-        paymentLink: paymentLink.url,
         stripeProductId: product.id,
         stripePriceId: priceObj.id,
-        stripePaymentLinkId: paymentLink.id,
+      },
+    })
+
+    // 4. Create Checkout Session WITH DYNAMIC REDIRECT
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: [
+        {
+          price: priceObj.id,
+          quantity: 1,
+        },
+      ],
+
+      // redirect EXACTO a la página de la canción
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/song/${slug}?paid=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/song/${slug}?paid=false`,
+
+      // send metadata for webhook
+      metadata: {
+        songId: song.id.toString(),
+        slug,
+        priceId: priceObj.id,
+      },
+    })
+
+    // 5. Save checkout URL
+    await db.song.update({
+      where: { id: song.id },
+      data: {
+        checkoutURL: session.url!,
+        stripeSessionId: session.id,
       },
     })
 

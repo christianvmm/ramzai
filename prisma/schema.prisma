@@ -8,27 +8,28 @@ datasource db {
 }
 
 model Song {
-  id              String  @id @default(uuid())
-  slug            String  @unique
+  id              String   @id @default(uuid())
+  slug            String   @unique
   title           String
-  recipientName   String  @map("recipient_name")
-  dedication      String  @db.Text
-  genre           String  @default("")
-  lyrics          String  @db.Text
-  lyricsPreview   String  @map("lyrics_preview") @db.Text
-  audioURL        String  @map("audio_url")
-  audioPreviewURL String  @map("audio_preview_url")
-  coverImage      String  @map("cover_image")
+  recipientName   String   @map("recipient_name")
+  dedication      String   @db.Text
+  genre           String   @default("")
+  lyrics          String   @db.Text
+  lyricsPreview   String   @map("lyrics_preview") @db.Text
+  audioURL        String   @map("audio_url")
+  audioPreviewURL String   @map("audio_preview_url")
+  coverImage      String   @map("cover_image")
   price           Decimal
 
-  purchasedAt DateTime? @map("purchased_at")
+  purchasedAt     DateTime? @map("purchased_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
 
-  createdAt DateTime @default(now()) @map("created_at")
-
-  paymentLink         String @map("payment_link")
-  stripeProductId     String @map("stripe_product_id")
-  stripePriceId       String @map("stripe_price_id")
-  stripePaymentLinkId String @map("stripe_payment_link_id")
+  // Para Stripe
+  checkoutURL      String? @map("checkout_url")        // URL de la Checkout Session
+  stripeSessionId  String? @map("stripe_session_id")   // ID de la sesión para el webhook
+  stripeProductId  String   @map("stripe_product_id")
+  stripePriceId    String   @map("stripe_price_id")
 
   @@map("songs")
 }
+
