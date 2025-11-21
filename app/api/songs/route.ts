@@ -5,6 +5,9 @@ import { NextResponse } from 'next/server'
 import { UTApi } from 'uploadthing/server'
 import Stripe from 'stripe'
 
+export const runtime = "nodejs";
+export const maxDuration = 60; // opcional
+
 const utapi = new UTApi()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
