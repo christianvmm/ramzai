@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
-import { PreviewContent } from '@/features/songs/components/preview-content'
+// import { PreviewContent } from '@/features/songs/components/preview-content'
 import { getSong } from '@/features/songs/api/get-song'
+import { SongFullVersion } from '@/features/songs/components/full-version'
 
 export default async function SongPreviewPage({
   params,
@@ -15,5 +16,5 @@ export default async function SongPreviewPage({
     notFound()
   }
 
-  return <PreviewContent song={song} />
+  return <SongFullVersion song={song} />
 }

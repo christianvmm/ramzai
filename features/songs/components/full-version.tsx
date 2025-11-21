@@ -1,17 +1,15 @@
+/* eslint-disable @next/next/no-img-element */
+'use client'
 import { Song } from '@/features/songs/api/get-song'
 import {
   CheckCircleIcon,
   DownloadIcon,
-  HeartIcon,
-  MusicIcon,
   PauseIcon,
   PlayIcon,
-  Share2Icon,
 } from 'lucide-react'
 import { useState } from 'react'
 
 export function SongFullVersion({ song }: { song: Song }) {
-  const [isFavorited, setIsFavorited] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const totalDuration = 285 // 4:45 in seconds
@@ -94,14 +92,13 @@ export function SongFullVersion({ song }: { song: Song }) {
             <div className='flex items-center gap-2 mb-4'>
               <div className='w-2 h-2 bg-amber-400 rounded-full' />
               <span className='text-xs font-semibold tracking-widest text-amber-400 uppercase'>
-                Purchase Unlocked — TODO
+                Purchase Unlocked — {song.createdAt.toDateString()}
               </span>
             </div>
 
             {/* Genre Tag */}
             <span className='inline-block text-xs font-semibold tracking-widest text-amber-400 mb-4 uppercase'>
-              {/* {song.genre} */}
-              TODO
+              {song.genre}
             </span>
 
             {/* Title */}
@@ -111,21 +108,19 @@ export function SongFullVersion({ song }: { song: Song }) {
 
             {/* Artist */}
             <p className='text-xl md:text-2xl text-gray-300 mb-6 font-light tracking-wide'>
-              {/* {song.artist} */}
-              TODO
+              {song.recipientName}
             </p>
 
             {/* Release Info */}
             <div className='flex flex-col lg:flex-row items-center lg:items-start gap-3 text-sm text-gray-400 mb-8'>
-              <span>Released TODO</span>
+              <span>Released {song.createdAt.toDateString()}</span>
               <span className='hidden lg:inline'>•</span>
-              <span>TODO</span>
+              <span>10:05</span>
             </div>
 
             {/* Description */}
             <p className='text-lg text-gray-300 mb-10 leading-relaxed max-w-xl'>
-              {/* {song.description} */}
-              TODO
+              {song.dedication}
             </p>
 
             {/* CTA Buttons - Primary is now Play Full Version */}
@@ -170,7 +165,7 @@ export function SongFullVersion({ song }: { song: Song }) {
             </div>
 
             {/* Secondary Actions */}
-            <div className='flex flex-wrap gap-3 justify-center lg:justify-start'>
+            {/* <div className='flex flex-wrap gap-3 justify-center lg:justify-start'>
               <button
                 onClick={() => setIsFavorited(!isFavorited)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-200 ${
@@ -195,7 +190,7 @@ export function SongFullVersion({ song }: { song: Song }) {
                 <MusicIcon className='w-4 h-4' />
                 <span className='text-sm font-medium'>Add to Playlist</span>
               </button>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>
