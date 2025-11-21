@@ -2,20 +2,17 @@ import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
-// ⛔ Requerido por Stripe para leer el raw body
 export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
-  // 1. Obtener raw body (texto)
   const body = await req.text()
   const signature = req.headers.get('stripe-signature')!
 
   let event: Stripe.Event
 
   try {
-    // 2. Verificar que Stripe haya firmado la petición
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -26,46 +23,30 @@ export async function POST(req: Request) {
     return new NextResponse('Signature error', { status: 400 })
   }
 
-  // 3. Evento importante: pago completado
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
 
-    // IMPORTANTE: aquí llega el ID del Payment Link usado
-    const paymentLinkId = session.payment_link?.toString()
+    // ✅ Usar metadata que pusiste al crear la sesión
+    const songId = session.metadata?.songId
 
-    if (!paymentLinkId) {
-      console.error('⚠️ No llegó payment_link en la sesión')
+    if (!songId) {
+      console.error('⚠️ No se encontró songId en metadata')
       return NextResponse.json({ received: true })
     }
 
-    // 4. Buscar la canción asociada
-    const song = await db.song.findFirst({
-      where: { stripePaymentLinkId: paymentLinkId },
-    })
-
-    if (!song) {
-      console.error(
-        '⚠️ No se encontró canción para payment_link:',
-        paymentLinkId
-      )
-      return NextResponse.json({ received: true })
-    }
-
-    // 5. Marcar como comprada
+    // 4. Marcar como comprada
     await db.song.update({
-      where: { id: song.id },
-      data: {
-        purchasedAt: new Date(),
-      },
+      where: { id: songId },
+      data: { purchasedAt: new Date() },
     })
 
-    console.log('🎉 Canción marcada como comprada:', song.title)
+    console.log('✅ Canción marcada como comprada, songId:', songId)
   }
 
   return NextResponse.json({ received: true })
 }
 
-// ⛔ Necesario para desactivar el body parser
+// Desactivar body parser (Stripe requiere el raw body)
 export const config = {
   api: {
     bodyParser: false,
