@@ -16,9 +16,21 @@ export async function generateMetadata({
 
   if (!song) return {}
 
-  return {
+return {
     title: `Ramzai - ${song.title}`,
     description: `Una canción dedicada especialmente a ${song.recipientName}. ${song.dedication} — Generada con Ramzai.`,
+    openGraph: {
+      title: `Ramzai - ${song.title}`,
+      description: `Una canción dedicada especialmente a ${song.recipientName}. ${song.dedication} — Generada con Ramzai.`,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}`,
+      siteName: 'Ramzai',
+      type: 'website',
+    },
+    twitter: {
+      title: `Ramzai - ${song.title}`,
+      description: `Una canción dedicada especialmente a ${song.recipientName}. ${song.dedication} — Generada con Ramzai.`,
+      card: 'summary',
+    },
   }
 }
 
