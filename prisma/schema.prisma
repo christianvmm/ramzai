@@ -25,7 +25,7 @@ model Song {
   createdAt       DateTime  @default(now()) @map("created_at")
 
   // Para Stripe
-  checkoutURL      String? @map("checkout_url")        // URL de la Checkout Session
+  checkoutURL      String? @map("checkout_url")  @db.Text       // URL de la Checkout Session
   stripeSessionId  String? @map("stripe_session_id")   // ID de la sesión para el webhook
   stripeProductId  String   @map("stripe_product_id")
   stripePriceId    String   @map("stripe_price_id")
