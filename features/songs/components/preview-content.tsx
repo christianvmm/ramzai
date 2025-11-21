@@ -110,7 +110,7 @@ export function PreviewContent({ song }: { song: Song }) {
             </p>
 
             <div className='bg-linear-to-r from-amber-400/10 to-amber-400/5 border border-amber-400/30 rounded-xl p-6 mb-10 backdrop-blur-sm'>
-              <p className='text-lg text-amber-100 font-medium italic text-balance'>
+              <p className='text-lg text-amber-100 font-medium italic text-balance whitespace-pre-line'>
                 {song.lyricsPreview}
               </p>
             </div>

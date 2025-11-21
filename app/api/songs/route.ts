@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       },
     })
 
-    return NextResponse.json(song)
+    return NextResponse.json({ slug: song.slug })
   } catch (err) {
     console.error(err)
     return NextResponse.json({ error: "Server error" }, { status: 500 })

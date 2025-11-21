@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent, type ChangeEvent } from 'react'
 import { Upload, Music } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface FormData {
   title: string
@@ -16,6 +17,7 @@ interface FormData {
 }
 
 export default function SongRegistrationForm() {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const [formData, setFormData] = useState<FormData>({
@@ -159,7 +161,8 @@ Lights, camera, action, lights, camera, action (you love, you love it)`,
       return
     }
 
-    alert('¡Canción registrada con éxito!')
+    const data = await res.json()
+    router.push(`/${data.slug}`)
   }
 
   return (
@@ -405,7 +408,7 @@ Lights, camera, action, lights, camera, action (you love, you love it)`,
                         : 'Haz clic para adjuntar imagen'}
                     </p>
                     <p className='text-xs text-gray-500 mt-1'>
-                      PNG o JPG, mínimo 1000x1000px
+                      PNG o JPG
                     </p>
                   </div>
                 </div>
