@@ -2,7 +2,7 @@ import { getSong } from '@/features/songs/api/get-song'
 import { ImageResponse } from 'next/og'
 
 // Image metadata
-export const alt = 'Hora App Business'
+export const alt = 'Ramzai'
 export const size = {
   width: 1200,
   height: 630,
