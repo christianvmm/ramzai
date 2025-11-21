@@ -87,8 +87,8 @@ export async function POST(req: Request) {
       ],
 
       // redirect EXACTO a la página de la canción
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/song/${slug}?paid=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/song/${slug}?paid=false`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=false`,
 
       // send metadata for webhook
       metadata: {
