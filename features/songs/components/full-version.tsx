@@ -179,7 +179,7 @@ export function SongFullVersion({ song }: { song: Song }) {
               <div className='flex flex-col lg:flex-row items-center lg:items-start gap-3 text-sm text-gray-400 mb-8'>
                 <span>Lanzado el {song.createdAt.toDateString()}</span>
                 <span className='hidden lg:inline'>•</span>
-                <span>10:05</span>
+                <span>{formatTime(totalDuration)}</span>
               </div>
 
               {/* Description */}
