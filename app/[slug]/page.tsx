@@ -1,24 +1,23 @@
 import { notFound } from 'next/navigation'
-import { PreviewContent } from '@/features/songs/components/preview-content'
 import { getSong } from '@/features/songs/api/get-song'
-import { SongFullVersion } from '@/features/songs/components/full-version'
+import { SongPageClient } from '@/features/songs/components/song-page'
 
 export default async function SongPreviewPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ paid?: string }>
 }) {
-  const p = await params
-  const slug = p.slug
+  const slug = (await params).slug
+
+  if(!slug) notFound()
+
   const song = await getSong(slug)
 
-  if (!song) {
-    notFound()
-  }
+  if (!song) notFound()
 
-  if (song.purchasedAt) {
-    return <SongFullVersion song={song} />
-  } else {
-    return <PreviewContent song={song} />
-  }
+  const paid = (await searchParams).paid === 'true'
+
+  return <SongPageClient initialSong={song} paid={paid} />
 }
