@@ -21,6 +21,8 @@ model Song {
   coverImage      String  @map("cover_image")
   price           Decimal
 
+  purchasedAt DateTime? @map("purchased_at")
+
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("songs")

@@ -69,7 +69,7 @@ export function SongFullVersion({ song }: { song: Song }) {
 
   async function downloadAudio() {
     try {
-      const response = await fetch(song.audioURL)
+      const response = await fetch(song.audioURL!)
       const blob = await response.blob()
 
       const url = window.URL.createObjectURL(blob)
@@ -86,7 +86,7 @@ export function SongFullVersion({ song }: { song: Song }) {
 
   return (
     <>
-      <audio ref={audioRef} src={song.audioURL} preload='metadata' />
+      <audio ref={audioRef} src={song.audioURL!} preload='metadata' />
       <div className='min-h-screen bg-black text-white overflow-hidden'>
         {/* Hero Section with Background Image */}
         <div className='relative min-h-screen flex items-center justify-center'>
@@ -156,7 +156,7 @@ export function SongFullVersion({ song }: { song: Song }) {
               <div className='flex items-center gap-2 mb-4'>
                 <div className='w-2 h-2 bg-amber-400 rounded-full' />
                 <span className='text-xs font-semibold tracking-widest text-amber-400 uppercase'>
-                  Compra Desbloqueada — {song.createdAt.toDateString()}
+                  Compra Desbloqueada — {song.purchasedAt?.toDateString()}
                 </span>
               </div>
 

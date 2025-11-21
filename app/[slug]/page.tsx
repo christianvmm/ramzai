@@ -16,5 +16,9 @@ export default async function SongPreviewPage({
     notFound()
   }
 
-  return <SongFullVersion song={song} />
+  if (song.purchasedAt) {
+    return <SongFullVersion song={song} />
+  } else {
+    return <PreviewContent song={song} />
+  }
 }
