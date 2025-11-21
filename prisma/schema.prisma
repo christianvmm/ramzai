@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // e.g. mysql://user:password@localhost:3306/mydb
+}
+
+model Song {
+  id              String  @id @default(uuid())
+  slug            String  @unique
+  title           String
+  recipientName   String  @map("recipient_name")
+  dedication      String  @db.Text
+  genre           String  @default("")
+  lyrics          String  @db.Text
+  lyricsPreview   String  @map("lyrics_preview") @db.Text
+  audioURL        String  @map("audio_url")
+  audioPreviewURL String  @map("audio_preview_url")
+  coverImage      String  @map("cover_image")
+  price           Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("songs")
+}
