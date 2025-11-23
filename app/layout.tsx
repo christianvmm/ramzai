@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { siteConfig } from '@/config'
+import Script from 'next/script'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -48,6 +49,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+         <Script
+          id="firstpromoter-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w){w.fpr=w.fpr||function(){w.fpr.q = w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
+              fpr("init", {cid:"tpm2g23i"}); 
+              fpr("click");`,
+          }}
+        />
+
+        {/* Script externo */}
+        <Script
+          src="https://cdn.firstpromoter.com/fpr.js"
+          strategy="afterInteractive"
+          async
+        />
+
         {children}
       </body>
     </html>
