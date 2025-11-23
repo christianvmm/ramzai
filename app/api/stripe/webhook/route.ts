@@ -32,6 +32,7 @@ export async function POST(req: Request) {
     const customerEmail = session.customer_details?.email
 
     console.log('METADATA', session.metadata)
+    console.log('CUSTOMER', customerEmail)
 
     if (!songId) {
       console.error('⚠️ No se encontró songId en metadata')

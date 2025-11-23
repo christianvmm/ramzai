@@ -3,12 +3,11 @@
 
 import { siteConfig } from '@/config'
 import { Song } from '@/features/songs/api/get-song'
-import { CheckIcon, PlayIcon } from 'lucide-react'
+import { PlayIcon } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 export function PreviewContent({ song }: { song: Song }) {
   const [isPlayingPreview, setIsPlayingPreview] = useState(false)
-  const [copied, setCopied] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
