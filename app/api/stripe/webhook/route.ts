@@ -29,6 +29,8 @@ export async function POST(req: Request) {
     // ✅ Usar metadata que pusiste al crear la sesión
     const songId = session.metadata?.songId
 
+    console.log("METADATA", session.metadata)
+
     if (!songId) {
       console.error('⚠️ No se encontró songId en metadata')
       return NextResponse.json({ received: true })

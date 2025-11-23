@@ -5,9 +5,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const songId = params.id
+  const songId = (await params).id
 
   // 1. Buscar la canción
   const song = await db.song.findUnique({

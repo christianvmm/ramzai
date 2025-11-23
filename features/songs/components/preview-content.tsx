@@ -185,7 +185,7 @@ export function PreviewContent({ song }: { song: Song }) {
                     className='px-3 py-1 bg-yellow-600 hover:bg-yellow-500 text-black font-bold text-xs rounded-md transition flex'
                   >
                     Copiar
-                    {copied && <CheckIcon className='size-4'/>}
+                    {copied && <CheckIcon className='size-4' />}
                   </button>
                 </div>
               </div>
@@ -199,14 +199,12 @@ export function PreviewContent({ song }: { song: Song }) {
                   <span>Escuchar vista previa</span>
                 </button>
 
-                {song.checkoutURL && (
-                  <a
-                    className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
-                    href={`/api/songs/buy/${song.id}`}
-                  >
-                    Comprar — ${song.price} MXN
-                  </a>
-                )}
+                <a
+                  className='flex-1 bg-gray-900 hover:bg-gray-800 text-white border border-gray-700 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 active:scale-95 shadow-lg hover:shadow-xl text-center'
+                  href={`/api/songs/buy/${song.id}`}
+                >
+                  Comprar — ${song.price} MXN
+                </a>
               </div>
             </div>
           </div>
