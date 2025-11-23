@@ -49,9 +49,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <Script
-          id="firstpromoter-init"
-          strategy="afterInteractive"
+        <Script
+          id='firstpromoter-init'
+          strategy='afterInteractive'
           dangerouslySetInnerHTML={{
             __html: `(function(w){w.fpr=w.fpr||function(){w.fpr.q = w.fpr.q||[];w.fpr.q[arguments[0]=='set'?'unshift':'push'](arguments);};})(window);
               fpr("init", {cid:"tpm2g23i"}); 
@@ -61,9 +61,46 @@ export default function RootLayout({
 
         {/* Script externo */}
         <Script
-          src="https://cdn.firstpromoter.com/fpr.js"
-          strategy="afterInteractive"
+          src='https://cdn.firstpromoter.com/fpr.js'
+          strategy='afterInteractive'
           async
+        />
+
+        <Script
+          id='firstpromoter-email-tracking'
+          strategy='afterInteractive'
+          dangerouslySetInnerHTML={{
+            __html: `
+      function validateEmail(email) {
+        var emailReg = /^([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4})?$/;
+        if (email) return emailReg.test(email);
+        return false;
+      }
+
+      function sendLeadToFP() {
+        var emailInput = document.querySelector('input[type="email"],input[name="email"]');
+        var submitButton = document.querySelector("button[type='submit'],input[type='submit']");
+
+        if (!emailInput || !submitButton) return;
+
+        ["mousedown", "touchstart"].forEach(function(event) {
+          submitButton.addEventListener(event, function() {
+            if (validateEmail(emailInput.value)) {
+              fpr("referral", {
+                email: emailInput.value,
+              });
+            }
+          });
+        });
+      }
+
+      if (window.attachEvent) {
+        window.attachEvent("onload", sendLeadToFP);
+      } else {
+        window.addEventListener("load", sendLeadToFP, false);
+      }
+    `,
+          }}
         />
 
         {children}
