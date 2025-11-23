@@ -5,8 +5,8 @@ import { NextResponse } from 'next/server'
 import { UTApi } from 'uploadthing/server'
 import Stripe from 'stripe'
 
-export const runtime = "nodejs";
-export const maxDuration = 60;
+export const runtime = 'nodejs'
+export const maxDuration = 60
 
 const utapi = new UTApi()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     ])
 
     if (!audioRes.data || !previewRes.data || !imageRes.data) {
-      throw new Error("Upload failed")
+      throw new Error('Upload failed')
     }
 
     const slug = `${slugify(title)}-${randomHash(5)}`
@@ -87,7 +87,8 @@ export async function POST(req: Request) {
       ],
 
       allow_promotion_codes: true,
-      
+      payment_method_collection: 'if_required',
+
       // redirect EXACTO a la página de la canción
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=false`,
