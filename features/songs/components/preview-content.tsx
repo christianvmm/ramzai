@@ -130,20 +130,65 @@ export function PreviewContent({ song }: { song: Song }) {
             </div>
 
             <div>
-              <p className='text-right text-sm text-gray-400 mb-2 hidden lg:block'>
-                10% de descuento con código{' '}
-                <span className='font-bold'>NAVIDAD25</span> —{' '}
-                <Countdown createdAt={song.createdAt} />
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText('NAVIDAD25')
-                    setCopied(true)
-                  }}
-                  className='ml-2 px-2 py-0.5 bg-gray-700 text-white rounded text-xs cursor-pointer inline-flex gap-1 items-center'
-                >
-                  Copiar {copied && <CheckIcon className='size-3' />}
-                </button>
-              </p>
+              {/* SECCIÓN DE AVISO + GARANTÍA + CONTADOR */}
+              <div className='mt-6 w-full bg-yellow-500/10 border border-yellow-500 rounded-xl p-5 text-yellow-300 space-y-4 mb-4'>
+                {/* Título + mensaje + contador */}
+                <div>
+                  <p className='font-bold text-lg'>
+                    TU CANCIÓN ESTARÁ DISPONIBLE PARA LA COMPRA SOLO 24 HORAS.
+                  </p>
+                  <p className='font-semibold'>
+                    POSTERIORMENTE SE ELIMINARÁ DEFINITIVAMENTE DE NUESTROS
+                    SERVIDORES —{' '}
+                    <span className='font-black'>
+                      <Countdown createdAt={song.createdAt} />
+                    </span>
+                  </p>
+                </div>
+
+                {/* Garantía */}
+                <div className='flex items-start gap-3 text-yellow-200 leading-snug'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='w-5 h-5 shrink-0 mt-1'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                    />
+                  </svg>
+
+                  <p>
+                    <span className='font-bold'>GARANTÍA DE SATISFACCIÓN:</span>{' '}
+                    AL COMPRARLA, SI NO ESTÁS SATISFECH@ AL 100% PODRÁS OBTENER
+                    UNA NUEVA PROPUESTA TOTALMENTE GRATIS.
+                  </p>
+                </div>
+
+                {/* Código descuento + copiar */}
+                <div className='flex items-center justify-between bg-yellow-500/20 border border-yellow-500/40 rounded-lg px-4 py-2'>
+                  <p className='text-sm'>
+                    10% de descuento con el código:{' '}
+                    <span className='font-bold text-yellow-300'>NAVIDAD25</span>
+                  </p>
+
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('NAVIDAD25')
+                      setCopied(true)
+                    }}
+                    className='px-3 py-1 bg-yellow-600 hover:bg-yellow-500 text-black font-bold text-xs rounded-md transition flex'
+                  >
+                    Copiar
+                    {copied && <CheckIcon className='size-4'/>}
+                  </button>
+                </div>
+              </div>
 
               <div className='flex flex-col sm:flex-row gap-4'>
                 <button
@@ -153,18 +198,6 @@ export function PreviewContent({ song }: { song: Song }) {
                   <PlayIcon className='w-5 h-5 fill-current' />
                   <span>Escuchar vista previa</span>
                 </button>
-
-                <p className='text-right text-sm text-gray-400 mt-4 block lg:hidden'>
-                  10% de descuento con código{' '}
-                  <span className='font-bold'>NAVIDAD25</span> —{' '}
-                  <Countdown createdAt={song.createdAt} />
-                  <button
-                    onClick={() => navigator.clipboard.writeText('NAVIDAD25')}
-                    className='ml-2 px-2 py-0.5 bg-gray-700 text-white rounded text-xs cursor-pointer'
-                  >
-                    Copiar
-                  </button>
-                </p>
 
                 {song.checkoutURL && (
                   <a
