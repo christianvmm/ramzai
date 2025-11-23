@@ -16,7 +16,7 @@ export async function generateMetadata({
 
   if (!song) return {}
 
-return {
+  return {
     title: `Ramzai - ${song.title}`,
     description: `Una canción dedicada especialmente a ${song.recipientName}. ${song.dedication} — Generada con Ramzai.`,
     openGraph: {
