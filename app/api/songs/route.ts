@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       description: `Canción para ${recipientName}`,
     })
 
-    // 2. Create Price
+    // // 2. Create Price
     const priceObj = await stripe.prices.create({
       product: product.id,
       currency: 'mxn',
@@ -73,39 +73,6 @@ export async function POST(req: Request) {
 
         stripeProductId: product.id,
         stripePriceId: priceObj.id,
-      },
-    })
-
-    // 4. Create Checkout Session WITH DYNAMIC REDIRECT
-    const session = await stripe.checkout.sessions.create({
-      mode: 'payment',
-      line_items: [
-        {
-          price: priceObj.id,
-          quantity: 1,
-        },
-      ],
-
-      allow_promotion_codes: true,
-
-      // redirect EXACTO a la página de la canción
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=false`,
-
-      // send metadata for webhook
-      metadata: {
-        songId: song.id.toString(),
-        slug,
-        priceId: priceObj.id,
-      },
-    })
-
-    // 5. Save checkout URL
-    await db.song.update({
-      where: { id: song.id },
-      data: {
-        checkoutURL: session.url!,
-        stripeSessionId: session.id,
       },
     })
 
