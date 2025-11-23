@@ -21,8 +21,8 @@ export async function GET(
 
   // 2. Referral code (si lo estás usando)
   const cookieStore = await cookies()
-  const referral = cookieStore.get('_fprom_ref')?.value ?? '' // opcional
-  console.log("MANDO", referral)
+  const referralId = cookieStore.get('_fprom_tid')?.value ?? '' // opcional
+  console.log('MANDO', { referralId })
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
@@ -40,7 +40,7 @@ export async function GET(
       songId: song.id.toString(),
       slug: song.slug,
       priceId: song.stripePriceId,
-      referral: referral ?? '',
+      referral: referralId,
     },
   })
 

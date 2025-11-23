@@ -169,25 +169,6 @@ export function PreviewContent({ song }: { song: Song }) {
                     UNA NUEVA PROPUESTA TOTALMENTE GRATIS.
                   </p>
                 </div>
-
-                {/* Código descuento + copiar */}
-                <div className='flex items-center justify-between bg-yellow-500/20 border border-yellow-500/40 rounded-lg px-4 py-2'>
-                  <p className='text-sm'>
-                    10% de descuento con el código:{' '}
-                    <span className='font-bold text-yellow-300'>NAVIDAD25</span>
-                  </p>
-
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText('NAVIDAD25')
-                      setCopied(true)
-                    }}
-                    className='px-3 py-1 bg-yellow-600 hover:bg-yellow-500 text-black font-bold text-xs rounded-md transition flex'
-                  >
-                    Copiar
-                    {copied && <CheckIcon className='size-4' />}
-                  </button>
-                </div>
               </div>
 
               <div className='flex flex-col sm:flex-row gap-4'>
@@ -218,7 +199,7 @@ function Countdown({ createdAt }: { createdAt: Date }) {
   const [timeLeft, setTimeLeft] = useState(0)
 
   useEffect(() => {
-    const target = new Date(new Date(createdAt).getTime() + 12 * 60 * 60 * 1000) // 12 horas después
+    const target = new Date(new Date(createdAt).getTime() + 24 * 60 * 60 * 1000) // 24 horas después
     const interval = setInterval(() => {
       const now = new Date()
       const diff = target.getTime() - now.getTime()
@@ -236,7 +217,7 @@ function Countdown({ createdAt }: { createdAt: Date }) {
 
   return (
     <span className=''>
-      válido por: {hours}h {minutes}m {seconds}s
+      {hours}h {minutes}m {seconds}s
     </span>
   )
 }

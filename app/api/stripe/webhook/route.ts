@@ -28,8 +28,10 @@ export async function POST(req: Request) {
 
     // ✅ Usar metadata que pusiste al crear la sesión
     const songId = session.metadata?.songId
+    const referral = session.metadata?.referral
+    const customerEmail = session.customer_details?.email
 
-    console.log("METADATA", session.metadata)
+    console.log('METADATA', session.metadata)
 
     if (!songId) {
       console.error('⚠️ No se encontró songId en metadata')
@@ -41,6 +43,31 @@ export async function POST(req: Request) {
       where: { id: songId },
       data: { purchasedAt: new Date() },
     })
+
+    if (referral && customerEmail) {
+      try {
+        const res = await fetch(
+          'https://v2.firstpromoter.com/api/v2/track/signup',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${process.env.FP_API_KEY}`,
+              'Account-ID': process.env.FP_ACCOUNT_ID!,
+            },
+            body: JSON.stringify({
+              email: customerEmail,
+              tid: referral,
+            }),
+          }
+        )
+
+        const json = await res.json()
+        console.log('📨 FirstPromoter response:', json)
+      } catch (error) {
+        console.error('❌ Error mandando a FirstPromoter:', error)
+      }
+    }
 
     console.log('✅ Canción marcada como comprada, songId:', songId)
   }
