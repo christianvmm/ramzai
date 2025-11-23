@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
@@ -19,8 +20,9 @@ export async function GET(
   }
 
   // 2. Referral code (si lo estás usando)
-  const { searchParams } = new URL(req.url)
-  const referral = searchParams.get('ref') // opcional
+  const cookieStore = await cookies()
+  const referral = cookieStore.get('_fprom_ref')?.value ?? '' // opcional
+  console.log("MANDO", referral)
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
