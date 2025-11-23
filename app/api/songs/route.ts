@@ -87,7 +87,6 @@ export async function POST(req: Request) {
       ],
 
       allow_promotion_codes: true,
-      payment_method_collection: 'if_required',
 
       // redirect EXACTO a la página de la canción
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/${slug}?paid=true`,
