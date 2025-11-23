@@ -63,8 +63,12 @@ export async function POST(req: Request) {
           }
         )
 
-        const json = await res.json()
-        console.log('📨 FirstPromoter response:', json)
+        if(res.ok) {
+          const json = await res.json()
+          console.log('📨 FirstPromoter response:', json)
+        } else{
+          console.log("Response not OK", res)
+        }
       } catch (error) {
         console.error('❌ Error mandando a FirstPromoter:', error)
       }
