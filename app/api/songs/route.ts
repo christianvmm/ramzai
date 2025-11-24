@@ -2,13 +2,20 @@ import { db } from '@/lib/db'
 import { randomHash } from '@/utils/random-hash'
 import { slugify } from '@/utils/slugify'
 import { NextResponse } from 'next/server'
-import { UTApi } from 'uploadthing/server'
 import Stripe from 'stripe'
+import { uploadMedia } from '@/lib/minio'
+import { randomUUID } from 'crypto'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
-const utapi = new UTApi()
+async function fileToPath(file: File, name: string) {
+  const arrayBuffer = await file.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  const pathFile = await uploadMedia(name, buffer)
+  return pathFile
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function POST(req: Request) {
@@ -30,14 +37,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing files' }, { status: 400 })
     }
 
-    // Upload files
-    const [audioRes, previewRes, imageRes] = await Promise.all([
-      utapi.uploadFiles(audioFile),
-      utapi.uploadFiles(audioPreview),
-      utapi.uploadFiles(coverImage),
-    ])
+    const audioPath = await fileToPath(
+      audioFile,
+      `/songs/audio-${randomUUID()}.mp3`
+    )
+    const audioPreviewPath = await fileToPath(
+      audioPreview,
+      `/songs/preview-${randomUUID()}.mp3`
+    )
+    const coverImagePath = await fileToPath(
+      coverImage,
+      `/songs/preview-${randomUUID()}.mp3`
+    )
 
-    if (!audioRes.data || !previewRes.data || !imageRes.data) {
+    if (!audioPath || !audioPreviewPath || !coverImagePath) {
       throw new Error('Upload failed')
     }
 
@@ -67,10 +80,9 @@ export async function POST(req: Request) {
         lyrics,
         lyricsPreview,
         price,
-        audioURL: audioRes.data.ufsUrl,
-        audioPreviewURL: previewRes.data.ufsUrl,
-        coverImage: imageRes.data.ufsUrl,
-
+        audioURL: audioPath,
+        audioPreviewURL: audioPreviewPath,
+        coverImage: coverImagePath,
         stripeProductId: product.id,
         stripePriceId: priceObj.id,
       },
