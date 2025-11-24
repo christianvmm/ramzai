@@ -17,8 +17,8 @@ export async function getSong(slug: string) {
     lyricsPreview: song.lyricsPreview,
 
     audioURL: song.purchasedAt ? storedFile(song.audioURL) : null,
-    audioPreviewURL: storedFile(song.audioPreviewURL),
-    coverImage: storedFile(song.coverImage),
+    audioPreviewURL: storedFile(song.audioPreviewURL) ?? '',
+    coverImage: storedFile(song.coverImage) ?? '',
 
     price: song.price.toNumber(),
     purchasedAt: song.purchasedAt,
