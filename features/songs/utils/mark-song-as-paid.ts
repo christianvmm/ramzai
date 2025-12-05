@@ -5,6 +5,13 @@ export async function markSongAsPaid(
   referral?: string | null,
   customerEmail?: string | null
 ) {
+  const song = await db.song.findUnique({ where: { id } })
+
+  if (song?.purchasedAt) {
+    console.log('⏭️ Canción ya estaba marcada como comprada, skip')
+    return
+  }
+
   await db.song.update({
     where: { id },
     data: { purchasedAt: new Date() },
