@@ -25,7 +25,7 @@ export function Pricing() {
             <div className="text-center mb-8">
               <h3 className="text-lg font-medium text-gray-600 mb-2">Canción Completa Personalizada</h3>
               <div className="flex items-center justify-center gap-1 mb-4">
-                <span className="text-5xl font-bold text-gray-900">$1499</span>
+                <span className="text-5xl font-bold text-gray-900">$999</span>
                 <span className="text-gray-500 self-end mb-2">MXN</span>
               </div>
               <p className="text-sm text-gray-500">Pago único. Entrega en 24h.</p>
