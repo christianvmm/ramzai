@@ -31,6 +31,9 @@ export async function POST(req: Request) {
     const referral = session.metadata?.referral
     const customerEmail = session.customer_details?.email
 
+    console.log(session.payment_method_types)
+    console.log(session.payment_status)
+
     console.log('METADATA', session.metadata)
     console.log('CUSTOMER', customerEmail)
 
