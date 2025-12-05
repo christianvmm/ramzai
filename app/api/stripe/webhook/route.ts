@@ -1,6 +1,6 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { markSongAsPaid } from '@/features/songs/utils/mark-song-as-paid'
 
 export const runtime = 'nodejs'
 
@@ -42,47 +42,17 @@ export async function POST(req: Request) {
     const isPaid = session.payment_status === 'paid'
 
     if (!isPaid) {
-      console.log('💳 Pago no confirmado aún, NO marcar como comprado. OXXO?', isOxxo)
+      console.log(
+        '💳 Pago no confirmado aún, NO marcar como comprado. OXXO?',
+        isOxxo
+      )
       return NextResponse.json({ received: true })
     }
 
-    console.log('✅ Canción marcada como comprada, songId:', songId)
     const referral = session.metadata?.referral
     const customerEmail = session.customer_details?.email
 
-    await db.song.update({
-      where: { id: songId },
-      data: { purchasedAt: new Date() },
-    })
-
-    if (referral && customerEmail) {
-      try {
-        const res = await fetch(
-          'https://v2.firstpromoter.com/api/v2/track/signup',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${process.env.FP_API_KEY}`,
-              'Account-ID': process.env.FP_ACCOUNT_ID!,
-            },
-            body: JSON.stringify({
-              email: customerEmail,
-              tid: referral,
-            }),
-          }
-        )
-
-        if (res.ok) {
-          const json = await res.json()
-          console.log('📨 FirstPromoter response:', json)
-        } else {
-          console.log('Response not OK', res)
-        }
-      } catch (error) {
-        console.error('❌ Error mandando a FirstPromoter:', error)
-      }
-    }
+    await markSongAsPaid(songId, referral, customerEmail)
   }
 
   return NextResponse.json({ received: true })
