@@ -42,6 +42,15 @@ export async function GET(
       priceId: song.stripePriceId,
       referral: referralId,
     },
+
+    payment_intent_data: {
+      metadata: {
+        songId: song.id.toString(),
+        slug: song.slug,
+        priceId: song.stripePriceId,
+        referral: referralId,
+      },
+    },
   })
 
   // 4. Redirigir directamente a Stripe

@@ -10,8 +10,6 @@ export async function markSongAsPaid(
     data: { purchasedAt: new Date() },
   })
 
-  console.log('✅ Canción marcada como comprada, songId:', id)
-
   if (referral && customerEmail) {
     try {
       const res = await fetch(

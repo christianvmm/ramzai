@@ -53,6 +53,23 @@ export async function POST(req: Request) {
     const customerEmail = session.customer_details?.email
 
     await markSongAsPaid(songId, referral, customerEmail)
+    console.log('✅ Canción marcada como comprada, songId:', songId)
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent
+    const songId = paymentIntent.metadata?.songId
+
+    if (!songId) {
+      console.error('⚠️ payment_intent.succeeded sin songId en metadata')
+      return NextResponse.json({ received: true })
+    }
+
+    const referral = paymentIntent.metadata?.referral
+    const customerEmail = paymentIntent.customer?.toString()
+
+    await markSongAsPaid(songId, referral, customerEmail)
+    console.log('✅ Canción marcada como comprada por PaymentIntent:', songId)
   }
 
   return NextResponse.json({ received: true })
