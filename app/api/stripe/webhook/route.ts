@@ -6,7 +6,6 @@ export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
   const body = await req.text()
   const signature = req.headers.get('stripe-signature')!
 
@@ -25,24 +24,32 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
-
-    // ✅ Usar metadata que pusiste al crear la sesión
     const songId = session.metadata?.songId
-    const referral = session.metadata?.referral
-    const customerEmail = session.customer_details?.email
-
-    console.log(session.payment_method_types)
-    console.log(session.payment_status)
-
-    console.log('METADATA', session.metadata)
-    console.log('CUSTOMER', customerEmail)
 
     if (!songId) {
       console.error('⚠️ No se encontró songId en metadata')
       return NextResponse.json({ received: true })
     }
 
-    // 4. Marcar como comprada
+    console.log(session.payment_method_types)
+    console.log(session.payment_status)
+    console.log('METADATA', session.metadata)
+
+    const isOxxo =
+      session.payment_method_types?.includes('oxxo') ||
+      session.payment_method_options?.oxxo !== undefined
+
+    const isPaid = session.payment_status === 'paid'
+
+    if (!isPaid) {
+      console.log('💳 Pago no confirmado aún, NO marcar como comprado. OXXO?', isOxxo)
+      return NextResponse.json({ received: true })
+    }
+
+    console.log('✅ Canción marcada como comprada, songId:', songId)
+    const referral = session.metadata?.referral
+    const customerEmail = session.customer_details?.email
+
     await db.song.update({
       where: { id: songId },
       data: { purchasedAt: new Date() },
@@ -66,18 +73,16 @@ export async function POST(req: Request) {
           }
         )
 
-        if(res.ok) {
+        if (res.ok) {
           const json = await res.json()
           console.log('📨 FirstPromoter response:', json)
-        } else{
-          console.log("Response not OK", res)
+        } else {
+          console.log('Response not OK', res)
         }
       } catch (error) {
         console.error('❌ Error mandando a FirstPromoter:', error)
       }
     }
-
-    console.log('✅ Canción marcada como comprada, songId:', songId)
   }
 
   return NextResponse.json({ received: true })
