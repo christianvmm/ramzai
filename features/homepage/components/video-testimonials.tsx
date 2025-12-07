@@ -109,7 +109,7 @@ export function VideoTestimonials() {
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className='relative group h-full cursor-pointer'>
-                  <div className='relative overflow-hidden rounded-2xl bg-gray-900 aspect-9/16 shadow-2xl transform transition-all duration-500  hover:shadow-2xl hover:shadow-purple-500/30'>
+                  <div className='relative overflow-hidden rounded-2xl bg-gray-900 aspect-9/16 shadow-2xl transform transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/30'>
                     {playingVideoId === video.id ? (
                       <video
                         autoPlay

@@ -29,7 +29,7 @@ export default function SongRegistrationForm() {
     audioFile: null,
     audioPreview: null,
     coverImage: null,
-    price: '1499',
+    price: '499',
   })
 
   const [uploadedFiles, setUploadedFiles] = useState({
@@ -360,7 +360,7 @@ export default function SongRegistrationForm() {
                     name='price'
                     value={formData.price}
                     onChange={handleInputChange}
-                    placeholder='1.99'
+                    placeholder='499'
                     step='0.01'
                     min='0.99'
                     className='w-full bg-gray-900 border border-gray-800 rounded-lg pl-7 pr-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 transition-all duration-200'
