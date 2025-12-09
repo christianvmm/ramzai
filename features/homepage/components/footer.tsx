@@ -10,11 +10,11 @@ export function Footer() {
             <Link href='/' className='flex items-center gap-2 mb-4'>
               {/* Updated logo to the new official RamzAI logo */}
               <Image
-                src='/logo-text.png'
+                src='/logo-new.png'
                 alt='RamzAl Logo'
-                width={240}
-                height={80}
-                className='h-16 w-auto'
+                width={501}
+                height={501}
+                className='h-32 w-auto'
               />
             </Link>
             <p className='text-gray-500 text-sm max-w-xs'>

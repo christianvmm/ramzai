@@ -8,11 +8,11 @@ export function Navbar() {
       <div className='container mx-auto px-4 md:px-6 h-20 flex items-center justify-between'>
         <Link href='/' className='flex items-center gap-2'>
           <Image
-            src='/logo-text.png'
+            src='/logo-new.png'
             alt='RamzAl Logo'
-            width={240}
-            height={80}
-            className='h-10 w-auto'
+            width={501}
+            height={501}
+            className='h-24 w-auto'
           />
         </Link>
         <div className='hidden md:flex items-center gap-6'>
