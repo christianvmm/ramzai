@@ -49,6 +49,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-17787217060" strategy="afterInteractive" />
+        
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17787217060');
+          `}
+        </Script>
+
         {/* Meta Pixel */}
         <Script
           id="meta-pixel"
