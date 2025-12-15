@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     )
     const coverImagePath = await fileToPath(
       coverImage,
-      `/songs/preview-${randomUUID()}.mp3`
+      `/songs/preview-${randomUUID()}.png`
     )
 
     if (!audioPath || !audioPreviewPath || !coverImagePath) {
