@@ -74,10 +74,3 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ received: true })
 }
-
-// Desactivar body parser (Stripe requiere el raw body)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
