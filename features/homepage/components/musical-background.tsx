@@ -17,7 +17,7 @@ export function MusicalBackground() {
   ]
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-linear-to-b from-purple-50/50 via-white to-orange-50/50">
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none bg-gradient-to-b from-purple-50/50 via-white to-orange-50/50">
       {icons.map((item, index) => (
         <div
           key={index}

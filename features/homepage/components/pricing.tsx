@@ -20,24 +20,15 @@ export function Pricing() {
         <div className="max-w-lg mx-auto">
           <div className="relative bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-gray-100 overflow-hidden">
             {/* Glow effect */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-linear-to-r from-purple-600 to-orange-500" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-2 bg-gradient-to-r from-purple-600 to-orange-500" />
 
             <div className="text-center mb-8">
               <h3 className="text-lg font-medium text-gray-600 mb-2">Canción Completa Personalizada</h3>
-              <div className="flex flex-col items-center gap-2 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl font-semibold text-gray-400 line-through">$999</span>
-                  <span className="text-xs font-medium text-gray-400">MXN</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-5xl font-bold bg-linear-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
-                    $499
-                  </span>
-                  <span className="text-gray-500 self-end mb-2">MXN</span>
-                </div>
-                <span className="inline-block px-3 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full">
-                  Precio por promoción
+              <div className="flex items-center justify-center gap-1 mb-4">
+                <span className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
+                  $1,499
                 </span>
+                <span className="text-gray-500 self-end mb-2">MXN</span>
               </div>
               <p className="text-sm text-gray-500">Pago único. Entrega en 24h.</p>
             </div>

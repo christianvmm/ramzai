@@ -23,7 +23,7 @@ export function ConfirmingPayment({ song }: { song: Song }) {
 
         <main className='relative z-10 w-full max-w-5xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16'>
           <img
-            src='/logo.png'
+            src='/logo-ramzai.png'
             className='w-32 h-auto mx-auto lg:hidden'
             alt={siteConfig.name}
           />
@@ -49,7 +49,7 @@ export function ConfirmingPayment({ song }: { song: Song }) {
             {/* Purchase Status Badge */}
 
             <img
-              src='/logo.png'
+              src='/logo-ramzai.png'
               className='w-32 h-auto mb-10 hidden lg:block'
               alt={siteConfig.name}
             />

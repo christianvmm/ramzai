@@ -22,7 +22,7 @@ export function Hero() {
 
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-6 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
           Transforma tus emociones en{" "}
-          <span className="bg-linear-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">
             canciones únicas
           </span>
         </h1>
@@ -36,7 +36,7 @@ export function Hero() {
           <Button
             asChild
             size="lg"
-            className="h-14 px-8 rounded-full text-lg bg-linear-to-r from-purple-600 to-orange-500 hover:opacity-90 transition-all shadow-xl shadow-purple-500/25 w-full sm:w-auto group"
+            className="h-14 px-8 rounded-full text-lg bg-gradient-to-r from-purple-600 to-orange-500 hover:opacity-90 transition-all shadow-xl shadow-purple-500/25 w-full sm:w-auto group"
           >
             <Link href="https://wa.me/5213352098093" target="_blank">
               <MessageCircle className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />

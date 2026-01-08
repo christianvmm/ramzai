@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 const DOMAIN_URL = process.env.NEXT_PUBLIC_BASE_URL!
 
 export const metadata: Metadata = {
+  title: siteConfig.name,
   applicationName: siteConfig.name,
   description: siteConfig.description,
   metadataBase: new URL(DOMAIN_URL),

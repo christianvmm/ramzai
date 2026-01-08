@@ -109,7 +109,7 @@ export default async function ImageGeneration({
 function AppLogo() {
   return (
     <img
-      src={process.env.NEXT_PUBLIC_BASE_URL + '/logo-new.png'}
+      src={process.env.NEXT_PUBLIC_BASE_URL + '/logo-ramzai.png'}
       alt='Logo'
       style={{
         width: 256,

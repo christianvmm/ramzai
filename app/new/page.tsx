@@ -29,7 +29,7 @@ export default function SongRegistrationForm() {
     audioFile: null,
     audioPreview: null,
     coverImage: null,
-    price: '499',
+    price: '1499',
   })
 
   const [uploadedFiles, setUploadedFiles] = useState({

@@ -48,7 +48,7 @@ export function Testimonials() {
     <section id="testimonios" className="py-24 bg-gray-50/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-linear-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent mb-4">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent mb-4">
             Lo que dicen nuestros clientes
           </h2>
           <p className="text-gray-600 text-lg">Historias reales convertidas en canciones inolvidables.</p>
@@ -65,7 +65,7 @@ export function Testimonials() {
                   <Star key={i} className="w-4 h-4 fill-current" />
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 grow leading-relaxed">&quot;{testimonial.text}&quot;</p>
+              <p className="text-gray-700 mb-6 flex-grow leading-relaxed">"{testimonial.text}"</p>
               <div className="mt-auto">
                 <p className="font-semibold text-gray-900">{testimonial.name}</p>
                 <p className="text-sm text-purple-600">Cliente verificado</p>
